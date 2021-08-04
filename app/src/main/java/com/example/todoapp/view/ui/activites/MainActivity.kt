@@ -23,14 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
-        closeKeyBoard(binding.root)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
-
-    private fun closeKeyBoard(view:View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
 }
