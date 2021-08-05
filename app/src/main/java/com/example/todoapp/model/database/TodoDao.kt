@@ -12,4 +12,13 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo_table ORDER BY id ASC")
     fun getAllData(): LiveData<List<TodoData>>
+
+    @Update
+    suspend fun updateData(todoData: TodoData)
+
+    @Delete
+    suspend fun deleteData(todoData: TodoData)
+
+    @Query("DELETE FROM todo_table")
+    suspend fun deleteAllData()
 }

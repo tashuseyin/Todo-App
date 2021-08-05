@@ -74,7 +74,6 @@ class AddFragment : Fragment() {
         } else {
             Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
         }
-
     }
 
 
