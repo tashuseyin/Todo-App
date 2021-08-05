@@ -3,11 +3,17 @@ package com.example.todoapp.view.ui.fragment.list
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.ListFragmentBinding
+import com.example.todoapp.view.adapter.ListAdapter
+import com.example.todoapp.viewmodel.ListViewModel
 
 class ListFragment : Fragment() {
+
+    private lateinit var adapter: ListAdapter
+    private lateinit var listViewModel: ListViewModel
 
     private var _binding: ListFragmentBinding? = null
     private val binding get() = _binding!!
@@ -24,19 +30,34 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        initRecyclerView()
+        setListener()
+
+        listViewModel.currentTodoData?.observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
+    }
+
+    private fun setListener() {
         binding.addFabButton.setOnClickListener {
             findNavController().navigate(ListFragmentDirections.actionListFragmentToAddFragment())
         }
-        binding.listLayout.setOnClickListener {
-            findNavController().navigate(ListFragmentDirections.actionListFragmentToUpdateFragment())
+
+    }
+
+    private fun initRecyclerView() {
+        adapter = ListAdapter{position ->
+            val data = adapter.dataList[position]
+            findNavController().navigate(ListFragmentDirections.actionListFragmentToUpdateFragment(data))
         }
+        binding.recyclerview.adapter = adapter
     }
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_menu, menu)
     }
-
 
 
     override fun onDestroyView() {

@@ -7,10 +7,8 @@ import com.example.todoapp.model.entities.TodoData
 class TodoViewModel : ViewModel() {
 
     private val repository = TodoRepository
-    
+
     suspend fun insert(todoData: TodoData) {
         repository.insertData(todoData = todoData)
     }
-
-
 }
