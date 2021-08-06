@@ -17,7 +17,14 @@ class ListViewModel : ViewModel() {
 
     fun checkDatabaseEmpty(todoData: List<TodoData>) {
         emptyDatabase.value = todoData.isEmpty()
+    }
 
+    suspend fun deleteData(todoData: TodoData) {
+        repository.deleteData(todoData)
+    }
+
+    suspend fun insert(todoData: TodoData) {
+        repository.insertData(todoData = todoData)
     }
 
     private fun getAllData(): LiveData<List<TodoData>>? = repository.getAllData

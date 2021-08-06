@@ -14,26 +14,32 @@ class ListViewHolder(private val binding: RowLayoutBinding) :
         binding.titleText.text = itemView.title
         binding.descriptionText.text = itemView.description
 
-
         when (itemView.priority) {
-            Priority.HIGH -> binding.priorityIndicator.setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.priorityIndicator.context,
-                    R.color.red
+            Priority.HIGH -> {
+                binding.priorityIndicator.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.priorityIndicator.context,
+                        R.color.red
+                    )
                 )
-            )
-            Priority.MEDIUM -> binding.priorityIndicator.setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.priorityIndicator.context,
-                    R.color.yellow
+            }
+
+            Priority.MEDIUM -> {
+                binding.priorityIndicator.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.priorityIndicator.context,
+                        R.color.yellow
+                    )
                 )
-            )
-            Priority.LOW -> binding.priorityIndicator.setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.priorityIndicator.context,
-                    R.color.green
+            }
+            Priority.LOW -> {
+                binding.priorityIndicator.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.priorityIndicator.context,
+                        R.color.green
+                    )
                 )
-            )
+            }
         }
 
 
