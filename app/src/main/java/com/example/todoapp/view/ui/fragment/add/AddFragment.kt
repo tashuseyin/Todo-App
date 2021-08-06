@@ -1,9 +1,7 @@
 package com.example.todoapp.view.ui.fragment.add
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,8 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentAddBinding
-import com.example.todoapp.util.listener
 import com.example.todoapp.model.entities.TodoData
+import com.example.todoapp.util.listener
 import com.example.todoapp.util.parsePriority
 import com.example.todoapp.util.verifyDataCheck
 import com.example.todoapp.viewmodel.TodoViewModel
@@ -70,17 +68,9 @@ class AddFragment : Fragment() {
             }
             Toast.makeText(context, "Successfully added", Toast.LENGTH_SHORT).show()
             findNavController().navigate(AddFragmentDirections.actionAddFragmentToListFragment())
-            closeKeyBoard()
         } else {
             Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
         }
-    }
-
-
-    private fun closeKeyBoard() {
-        val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     override fun onDestroyView() {

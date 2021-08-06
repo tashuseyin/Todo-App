@@ -15,6 +15,7 @@ import com.example.todoapp.R
 import com.example.todoapp.databinding.ListFragmentBinding
 import com.example.todoapp.model.entities.Priority
 import com.example.todoapp.model.entities.TodoData
+import com.example.todoapp.util.hideKeyboard
 import com.example.todoapp.view.adapter.ListAdapter
 import com.example.todoapp.view.adapter.SwipeToDelete
 import com.example.todoapp.viewmodel.ListViewModel
@@ -61,13 +62,15 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                     data
                 )
             )
+            hideKeyboard(requireActivity())
         }
         binding.recyclerview.adapter = adapter
         binding.recyclerview.itemAnimator = ScaleInLeftAnimator().apply {
             addDuration = 150
         }
-
         swipeToDelete(binding.recyclerview)
+
+        hideKeyboard(requireActivity())
     }
 
     private fun swipeToDelete(recyclerView: RecyclerView) {
@@ -131,23 +134,29 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
             R.id.action_filter_high_priority -> {
                 listViewModel.filterListTodoData(Priority.HIGH.name)?.observe(viewLifecycleOwner) {
-                        adapter.setData(it)
-                    }
-            }
-            R.id.action_filter_medium_priority -> {
-                listViewModel.filterListTodoData(Priority.MEDIUM.name)?.observe(viewLifecycleOwner) {
                     adapter.setData(it)
                 }
+            }
+            R.id.action_filter_medium_priority -> {
+                listViewModel.filterListTodoData(Priority.MEDIUM.name)
+                    ?.observe(viewLifecycleOwner) {
+                        adapter.setData(it)
+                    }
             }
             R.id.action_filter_low_priority -> {
                 listViewModel.filterListTodoData(Priority.LOW.name)?.observe(viewLifecycleOwner) {
                     adapter.setData(it)
                 }
             }
+            R.id.action_filter_all_priority -> {
+                listViewModel.currentTodoData?.observe(viewLifecycleOwner) {
+                    adapter.setData(it)
+                }
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
@@ -171,7 +180,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
     }
-
 
     private fun deleteAllData() {
         val builder = AlertDialog.Builder(context)

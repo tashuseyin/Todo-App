@@ -16,8 +16,7 @@
     <string name="delete">Delete</string>
     <string name="filter">Filter</string>
     <string name="medium_priority">Medium Priority</string>
-
-
+    <string name="all">All</string>
 
     <string-array name="priorities">
         <item>High Priority</item>

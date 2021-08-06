@@ -24,6 +24,8 @@
                 android:title="@string/medium_priority"/>
             <item android:id="@+id/action_filter_low_priority"
                 android:title="@string/low_priority"/>
+            <item android:id="@+id/action_filter_all_priority"
+                android:title="@string/all"/>
         </menu>
     </item>
 
