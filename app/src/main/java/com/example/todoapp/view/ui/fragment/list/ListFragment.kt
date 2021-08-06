@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 import com.example.todoapp.databinding.ListFragmentBinding
+import com.example.todoapp.model.entities.Priority
 import com.example.todoapp.model.entities.TodoData
 import com.example.todoapp.view.adapter.ListAdapter
 import com.example.todoapp.view.adapter.SwipeToDelete
@@ -127,9 +128,26 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                     adapter.setData(it)
                 }
             }
+
+            R.id.action_filter_high_priority -> {
+                listViewModel.filterListTodoData(Priority.HIGH.name)?.observe(viewLifecycleOwner) {
+                        adapter.setData(it)
+                    }
+            }
+            R.id.action_filter_medium_priority -> {
+                listViewModel.filterListTodoData(Priority.MEDIUM.name)?.observe(viewLifecycleOwner) {
+                    adapter.setData(it)
+                }
+            }
+            R.id.action_filter_low_priority -> {
+                listViewModel.filterListTodoData(Priority.LOW.name)?.observe(viewLifecycleOwner) {
+                    adapter.setData(it)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {

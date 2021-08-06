@@ -1,10 +1,11 @@
 package com.example.todoapp.model.database
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.todoapp.model.entities.TodoData
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.internal.synchronized
 
 
 @Database(entities = [TodoData::class], version = 1)
@@ -17,7 +18,7 @@ abstract class TodoDatabase : RoomDatabase() {
         private var INSTANCE: TodoDatabase? = null
 
         fun initializeDatabase(context: Context) {
-            kotlin.synchronized(this) {
+            synchronized(this) {
                 INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
                     TodoDatabase::class.java,
