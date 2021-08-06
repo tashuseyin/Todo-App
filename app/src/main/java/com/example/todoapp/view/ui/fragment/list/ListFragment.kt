@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,9 +18,10 @@ import com.example.todoapp.view.adapter.ListAdapter
 import com.example.todoapp.view.adapter.SwipeToDelete
 import com.example.todoapp.viewmodel.ListViewModel
 import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator
 import kotlinx.coroutines.launch
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var adapter: ListAdapter
     private lateinit var listViewModel: ListViewModel
@@ -60,6 +62,10 @@ class ListFragment : Fragment() {
             )
         }
         binding.recyclerview.adapter = adapter
+        binding.recyclerview.itemAnimator = ScaleInLeftAnimator().apply {
+            addDuration = 150
+        }
+
         swipeToDelete(binding.recyclerview)
     }
 
@@ -95,6 +101,13 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_menu, menu)
+
+        val search = menu.findItem(R.id.action_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -103,9 +116,44 @@ class ListFragment : Fragment() {
             R.id.action_delete_all -> {
                 deleteAllData()
             }
+            R.id.menu_priority_high -> {
+                listViewModel.sortByHighPriority()?.observe(viewLifecycleOwner) {
+                    adapter.setData(it)
+                }
+            }
+
+            R.id.menu_priority_low -> {
+                listViewModel.sortByLowPriority()?.observe(viewLifecycleOwner) {
+                    adapter.setData(it)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchData(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            searchData(newText)
+        }
+        return true
+    }
+
+    private fun searchData(query: String) {
+        val searchQuery = "%$query%"
+
+        listViewModel.searchDatabase(searchQuery)?.observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
+
+    }
+
 
     private fun deleteAllData() {
         val builder = AlertDialog.Builder(context)

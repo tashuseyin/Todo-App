@@ -31,4 +31,14 @@ class ListViewModel : ViewModel() {
 
     suspend fun deleteAllData() = repository.deleteAllData()
 
+    fun searchDatabase(query: String): LiveData<List<TodoData>>? =
+        repository.searchResultData(query)
+
+
+    fun sortByHighPriority(): LiveData<List<TodoData>>? = repository.sortByHighPriority()
+    fun sortByLowPriority(): LiveData<List<TodoData>>? = repository.sortByLowPriority()
+
+    fun filterListTodoData(query: String):LiveData<List<TodoData>>? = repository.filterListData(query)
+
+
 }

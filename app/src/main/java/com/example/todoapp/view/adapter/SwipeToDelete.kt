@@ -9,10 +9,11 @@ import com.example.todoapp.R
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 abstract class SwipeToDelete(context: Context) :
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
 
-    private val deleteColor = ContextCompat.getColor(context, R.color.red)
+    private val deleteColor = ContextCompat.getColor(context, R.color.fabColor)
     private val deleteIcon = R.drawable.ic_delete
+
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -40,8 +41,7 @@ abstract class SwipeToDelete(context: Context) :
             dY,
             actionState,
             isCurrentlyActive
-        )
-            .addSwipeLeftBackgroundColor(deleteColor)
+        ).addSwipeLeftBackgroundColor(deleteColor)
             .addSwipeLeftActionIcon(deleteIcon)
             .create()
             .decorate()
