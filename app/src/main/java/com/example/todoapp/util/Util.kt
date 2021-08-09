@@ -8,6 +8,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.example.todoapp.R
 import com.example.todoapp.model.entities.Priority
 
@@ -52,9 +55,7 @@ fun listener(context: Context): AdapterView.OnItemSelectedListener =
 
 
 fun verifyDataCheck(title: String, description: String): Boolean {
-    return if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description)) {
-        false
-    } else !(TextUtils.isEmpty(title) || TextUtils.isEmpty(description))
+    return !(title.isEmpty() || description.isEmpty())
 }
 
 
@@ -74,13 +75,26 @@ fun parsePriority(priority: String): Priority {
 }
 
 
-fun hideKeyboard(activity:Activity){
-    val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+fun hideKeyboard(activity: Activity) {
+    val inputMethodManager =
+        activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     val currentFocusedView = activity.currentFocus
     currentFocusedView?.let {
-        inputMethodManager.hideSoftInputFromWindow(currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        inputMethodManager.hideSoftInputFromWindow(
+            currentFocusedView.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
     }
 }
 
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
+}
 
 

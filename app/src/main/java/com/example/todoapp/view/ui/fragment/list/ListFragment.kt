@@ -16,6 +16,7 @@ import com.example.todoapp.databinding.ListFragmentBinding
 import com.example.todoapp.model.entities.Priority
 import com.example.todoapp.model.entities.TodoData
 import com.example.todoapp.util.hideKeyboard
+import com.example.todoapp.util.observeOnce
 import com.example.todoapp.view.adapter.ListAdapter
 import com.example.todoapp.view.adapter.SwipeToDelete
 import com.example.todoapp.viewmodel.ListViewModel
@@ -134,22 +135,26 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
             R.id.action_filter_high_priority -> {
                 listViewModel.filterListTodoData(Priority.HIGH.name)?.observe(viewLifecycleOwner) {
+                    listViewModel.checkDatabaseEmpty(it)
                     adapter.setData(it)
                 }
             }
             R.id.action_filter_medium_priority -> {
                 listViewModel.filterListTodoData(Priority.MEDIUM.name)
                     ?.observe(viewLifecycleOwner) {
+                        listViewModel.checkDatabaseEmpty(it)
                         adapter.setData(it)
                     }
             }
             R.id.action_filter_low_priority -> {
                 listViewModel.filterListTodoData(Priority.LOW.name)?.observe(viewLifecycleOwner) {
+                    listViewModel.checkDatabaseEmpty(it)
                     adapter.setData(it)
                 }
             }
             R.id.action_filter_all_priority -> {
                 listViewModel.currentTodoData?.observe(viewLifecycleOwner) {
+                    listViewModel.checkDatabaseEmpty(it)
                     adapter.setData(it)
                 }
             }
@@ -175,7 +180,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchData(query: String) {
         val searchQuery = "%$query%"
 
-        listViewModel.searchDatabase(searchQuery)?.observe(viewLifecycleOwner) {
+        listViewModel.searchDatabase(searchQuery)?.observeOnce(viewLifecycleOwner) {
             adapter.setData(it)
         }
 
