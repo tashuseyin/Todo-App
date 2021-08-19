@@ -32,6 +32,4 @@ interface TodoDao {
     @Query("SELECT * FROM todo_table ORDER BY CASE WHEN priority LIKE 'L%' THEN 1 WHEN priority LIKE 'M%' THEN 2 WHEN priority LIKE 'H%' THEN 3 END")
     fun sortByLowPriority(): LiveData<List<TodoData>>
 
-    @Query("SELECT * FROM todo_table WHERE priority = Lower(:filterType) or priority = :filterType")
-    fun getFilteredDishesList(filterType: String): LiveData<List<TodoData>>
 }

@@ -23,7 +23,6 @@ class ListViewHolder(private val binding: RowLayoutBinding) :
                     )
                 )
             }
-
             Priority.MEDIUM -> {
                 binding.priorityIndicator.setBackgroundColor(
                     ContextCompat.getColor(

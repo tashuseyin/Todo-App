@@ -33,7 +33,6 @@ object TodoRepository {
         return todoDao?.sortByLowPriority()
     }
 
-    fun filterListData(value: String) = todoDao?.getFilteredDishesList(value)
 
 
 }

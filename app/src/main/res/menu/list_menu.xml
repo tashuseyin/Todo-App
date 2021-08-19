@@ -10,25 +10,6 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_filter"
-        android:icon="@drawable/ic_baseline_filter_list_24"
-        android:iconTint="@color/white"
-        android:title="@string/filter"
-        app:showAsAction="ifRoom">
-
-        <menu>
-            <item android:id="@+id/action_filter_high_priority"
-                android:title="@string/high_priority"/>
-            <item android:id="@+id/action_filter_medium_priority"
-                android:title="@string/medium_priority"/>
-            <item android:id="@+id/action_filter_low_priority"
-                android:title="@string/low_priority"/>
-            <item android:id="@+id/action_filter_all_priority"
-                android:title="@string/all"/>
-        </menu>
-    </item>
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_sortBy"

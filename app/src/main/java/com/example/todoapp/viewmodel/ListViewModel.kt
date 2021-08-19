@@ -38,7 +38,6 @@ class ListViewModel : ViewModel() {
     fun sortByHighPriority(): LiveData<List<TodoData>>? = repository.sortByHighPriority()
     fun sortByLowPriority(): LiveData<List<TodoData>>? = repository.sortByLowPriority()
 
-    fun filterListTodoData(query: String):LiveData<List<TodoData>>? = repository.filterListData(query)
 
 
 }
